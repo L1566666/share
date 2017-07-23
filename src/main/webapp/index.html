@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/html.css/idnex.css" /> />
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script type="text/javascript" src="js/html.js/index.js"></script>
+	</head>
+
+	<body class="container">
+		<!--
+	作者：lin
+	时间：2017年7月10日10:03:37
+	描述：导航栏
+-->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<!--主页-->
+			<div class="container" style="margin-left:10%;">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="./index.html">云盘Share</a>
+				</div>
+				<!--导航标题内容-->
+				<div>
+					<ul class="nav navbar-nav">
+						<li class="active" id="index-button">
+							<a href="#">主页</a>
+						</li>
+						<li class="" id="software-button">
+							<a href="#">软件</a>
+						</li>
+						<li class="" id="video-button">
+							<a href="#">视频</a>
+						</li>
+						<!--<li class="" value="1">
+							<a href="#">发现</a>
+						</li>-->
+						<li class="" id="casual-button">
+							<a href="#">随心分享</a>
+						</li>
+						<form class="navbar-form navbar-left" role="search">
+							<div class="form-group">
+								<input type="text" class="form-control" name="search_str" placeholder="Search">
+							</div>
+							<button type="button" class="btn btn-success" id="search">Search(搜索)</button>
+						</form>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="" id="login">
+							<a href="html/login.html">登录</a>
+						</li>
+						<li class="" id="register">
+							<a href="html/register.html">注册</a>
+						</li>
+						<li class="dropdown" id="personal-info">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="personal-info-email"></span><span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#"><span class="glyphicon glyphicon-user"></span> 我的主页</a>
+								</li>
+								<li>
+									<a href="#"><span class="glyphicon glyphicon-volume-down"></span> 消息</a>
+								</li>
+								<li>
+									<a href="#" data-toggle="tooltip" title="您的反馈我们一定会重视!相信我们一定会在3天内将反馈结果告诉您!"><span class="glyphicon glyphicon-pencil"></span> 反馈</a>
+								</li>
+								<li>
+									<a href="#"><span class="glyphicon glyphicon-asterisk"></span> 设置</a>
+								</li>
+								<li role="separator" class="divider"></li>
+								<li>
+									<a href="#" onclick="login_out()">退出登录</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+
+		</nav>
+
+		<!--
+        	作者：lin
+        	时间：2017年7月13日20:09:37
+        	描述：左侧静态悬浮框
+        -->
+		<div class="left-static" id="left-static" style="display: none;">
+			<div class="left-static-text" id="left-static-text-3"  data-toggle="modal" data-target="#myShare">
+				&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-level-up"></span> 我要分享
+			</div>
+			<div class="left-static-text" id="left-static-text-1">
+				&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-cloud-upload"></span> 我的分享
+			</div>
+			<div class="left-static-text" id="left-static-text-2">
+				&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-star"></span> 我的收藏
+			</div>
+			<div class="left-static-text" id="left-static-text-3">
+				&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-hand-up"></span> 我的关注
+			</div>
+		</div>
+		<!--分享模态框
+		<!-- Modal -->
+		<div class="modal fade" id="myShare" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel" align="center"><b>创建新的分享</b></h4>
+		      </div>
+		      <div class="modal-body">
+		      	<form class="form-horizontal">
+			      	<div class="form-group">
+			      		<label class="col-sm-3 control-label">标题:</label>
+			      		<div class="col-sm-6">
+			      			<input type="text" class="form-control" name="share_subject" value="" />
+			      		</div>
+			      	</div>
+			      	
+			      	<div class="form-group">
+			      		<label class="col-sm-3 control-label">分享描述:</label>
+			      		<div class="col-sm-6">
+			      			<input type="text" class="form-control" name="share_describe" value="" />
+			      		</div>
+			      	</div>
+			      	<div class="form-group">
+			      		<label class="col-sm-3 control-label">URL地址:</label>
+			      		<div class="col-sm-6">
+			      			<textarea class="form-control" rows="4" name="share_url"></textarea>
+			      		</div>
+			      	</div>
+			      	<div class="form-group">
+			      		<label class="col-sm-3 control-label">分类</label>
+			      		<div class="col-sm-6">
+			      			<select name="share_type" class="form-control">
+			      				<option value="1">软件</option>
+			      				<option value="2">视频</option>
+			      				<option value="3">随心分享</option>
+			      			</select>
+			      		</div>
+			      	</div>
+			      	
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		      	<div align="center">
+			        <button type="button" class="btn btn-primary" id="shareSave">保存分享</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal" id="close-share-modal">关闭</button></div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		
+		<!--
+    	作者：lin
+    	时间：2017-07-11
+    	描述：数据部分
+   -->
+		<div style="margin-top: 50px;" ng-app="my-app" ng-controller="my-controller">
+
+			<div ng-repeat="share in shareList" class="share-content">
+				
+				<table width="65%">
+					<tr align="center">
+						<td colspan="2"><font size="2"><b>{{share.shareSubject}}</b></font><br /></td>	
+					</tr>
+					
+					<tr>
+						<td>描述:</td>
+						<td>{{share.shareDescribe}}</td>
+					</tr>
+					<tr>
+						<td>url:</td>
+						<td><a href="http://{{share.shareUrl}}" target="view_window">{{share.shareUrl}}</a></td>
+					</tr>
+					<tr>
+						<td><font><b><span class="glyphicon glyphicon-user"></span>{{share.email}}</b></font></td>
+						<td>
+							<font>{{share.shareType | shareTypeFilter}}</font>&nbsp;&nbsp;&nbsp;
+							<font><span class="glyphicon glyphicon-time"></span>{{share.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</font>&nbsp;&nbsp;&nbsp;
+							<font><span class="glyphicon glyphicon-thumbs-up"></span>({{share.supportAmount}})</font>&nbsp;&nbsp;&nbsp;
+							<font><span class="glyphicon glyphicon-thumbs-down"></span>({{share.stepAmount}})</font>&nbsp;&nbsp;&nbsp;
+						</td>
+					</tr>
+					
+				</table>
+				
+<!--				
+				<font size="2"><b>{{share.shareSubject}}</b></font><br />
+				<font>描述:{{share.shareDescribe}}</font><br />
+				url:{{share.shareUrl}}<br />
+				
+				<font><b><span class="glyphicon glyphicon-user"></span>{{share.email}}</b></font>&nbsp;&nbsp;&nbsp;
+				<font>来自分类:{{share.shareType}}</font>&nbsp;&nbsp;&nbsp;
+				<font><span class="glyphicon glyphicon-time"></span>{{share.createDate | date:'yyyy-MM-dd HH:mm:ss EEEE'}}</font>&nbsp;&nbsp;&nbsp;
+				<font><span class="glyphicon glyphicon-thumbs-up"></span>({{share.supportAmount}})</font>&nbsp;&nbsp;&nbsp;
+				<font><span class="glyphicon glyphicon-thumbs-down"></span>({{share.stepAmount}})</font>&nbsp;&nbsp;&nbsp;
+			-->
+				<hr width="65%" align="left">
+			</div>
+			
+		</div>
+	</body>
+
+</html>
