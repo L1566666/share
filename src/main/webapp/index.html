@@ -90,8 +90,8 @@
         	时间：2017年7月13日20:09:37
         	描述：左侧静态悬浮框
         -->
-		<div class="left-static" id="left-static" style="display: none;">
-			<div class="left-static-text" id="left-static-text-3"  data-toggle="modal" data-target="#myShare">
+		<div class="left-static" id="left-static" style="display: ;">
+			<div class="left-static-text" id="left-static-text-3" data-toggle="modal" data-target="#myShare">
 				&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-level-up"></span> 我要分享
 			</div>
 			<div class="left-static-text" id="left-static-text-1">
@@ -107,56 +107,55 @@
 		<!--分享模态框
 		<!-- Modal -->
 		<div class="modal fade" id="myShare" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel" align="center"><b>创建新的分享</b></h4>
-		      </div>
-		      <div class="modal-body">
-		      	<form class="form-horizontal">
-			      	<div class="form-group">
-			      		<label class="col-sm-3 control-label">标题:</label>
-			      		<div class="col-sm-6">
-			      			<input type="text" class="form-control" name="share_subject" value="" />
-			      		</div>
-			      	</div>
-			      	
-			      	<div class="form-group">
-			      		<label class="col-sm-3 control-label">分享描述:</label>
-			      		<div class="col-sm-6">
-			      			<input type="text" class="form-control" name="share_describe" value="" />
-			      		</div>
-			      	</div>
-			      	<div class="form-group">
-			      		<label class="col-sm-3 control-label">URL地址:</label>
-			      		<div class="col-sm-6">
-			      			<textarea class="form-control" rows="4" name="share_url"></textarea>
-			      		</div>
-			      	</div>
-			      	<div class="form-group">
-			      		<label class="col-sm-3 control-label">分类</label>
-			      		<div class="col-sm-6">
-			      			<select name="share_type" class="form-control">
-			      				<option value="1">软件</option>
-			      				<option value="2">视频</option>
-			      				<option value="3">随心分享</option>
-			      			</select>
-			      		</div>
-			      	</div>
-			      	
-		        </form>
-		      </div>
-		      <div class="modal-footer">
-		      	<div align="center">
-			        <button type="button" class="btn btn-primary" id="shareSave">保存分享</button>
-			        <button type="button" class="btn btn-default" data-dismiss="modal" id="close-share-modal">关闭</button></div>
-		      </div>
-		    </div>
-		  </div>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel" align="center"><b>创建新的分享</b></h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">标题:</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="share_subject" value="" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">分享描述:</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="share_describe" value="" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">URL地址:</label>
+								<div class="col-sm-6">
+									<textarea class="form-control" rows="4" name="share_url"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">分类</label>
+								<div class="col-sm-6">
+									<select name="share_type" class="form-control">
+										<option value="1">软件</option>
+										<option value="2">视频</option>
+										<option value="3">随心分享</option>
+									</select>
+								</div>
+							</div>
+
+						</form>
+					</div>
+					<div class="modal-footer">
+						<div align="center">
+							<button type="button" class="btn btn-primary" id="shareSave">保存分享</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="close-share-modal">关闭</button></div>
+					</div>
+				</div>
+			</div>
 		</div>
-		
-		
+
 		<!--
     	作者：lin
     	时间：2017-07-11
@@ -165,22 +164,27 @@
 		<div style="margin-top: 50px;" ng-app="my-app" ng-controller="my-controller">
 
 			<div ng-repeat="share in shareList" class="share-content">
-				
+
 				<table width="65%">
 					<tr align="center">
-						<td colspan="2"><font size="2"><b>{{share.shareSubject}}</b></font><br /></td>	
+						<td colspan="2">
+							<font size="2"><b>{{share.shareSubject}}</b></font><br /></td>
 					</tr>
-					
+
 					<tr>
 						<td>描述:</td>
 						<td>{{share.shareDescribe}}</td>
 					</tr>
 					<tr>
 						<td>url:</td>
-						<td><a href="http://{{share.shareUrl}}" target="view_window">{{share.shareUrl}}</a></td>
+						<td>
+							<a href="http://{{share.shareUrl}}" target="view_window">{{share.shareUrl}}</a>
+						</td>
 					</tr>
 					<tr>
-						<td><font><b><span class="glyphicon glyphicon-user"></span>{{share.email}}</b></font></td>
+						<td>
+							<font><b><span class="glyphicon glyphicon-user"></span>{{share.email}}</b></font>
+						</td>
 						<td>
 							<font>{{share.shareType | shareTypeFilter}}</font>&nbsp;&nbsp;&nbsp;
 							<font><span class="glyphicon glyphicon-time"></span>{{share.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</font>&nbsp;&nbsp;&nbsp;
@@ -188,24 +192,27 @@
 							<font><span class="glyphicon glyphicon-thumbs-down"></span>({{share.stepAmount}})</font>&nbsp;&nbsp;&nbsp;
 						</td>
 					</tr>
-					
+
 				</table>
-				
-<!--				
-				<font size="2"><b>{{share.shareSubject}}</b></font><br />
-				<font>描述:{{share.shareDescribe}}</font><br />
-				url:{{share.shareUrl}}<br />
-				
-				<font><b><span class="glyphicon glyphicon-user"></span>{{share.email}}</b></font>&nbsp;&nbsp;&nbsp;
-				<font>来自分类:{{share.shareType}}</font>&nbsp;&nbsp;&nbsp;
-				<font><span class="glyphicon glyphicon-time"></span>{{share.createDate | date:'yyyy-MM-dd HH:mm:ss EEEE'}}</font>&nbsp;&nbsp;&nbsp;
-				<font><span class="glyphicon glyphicon-thumbs-up"></span>({{share.supportAmount}})</font>&nbsp;&nbsp;&nbsp;
-				<font><span class="glyphicon glyphicon-thumbs-down"></span>({{share.stepAmount}})</font>&nbsp;&nbsp;&nbsp;
-			-->
+
 				<hr width="65%" align="left">
 			</div>
-			
+			<!--
+        	作者：lin@qq.com
+        	时间：2017-07-23
+        	描述：分页
+        -->
+			<nav aria-label="..." style="margin-left: -50%;">
+			  <ul class="pager">
+			    <li id="previous-page"><a href="#">上一页</a></li>
+			     <li>第<mark>{{pageNo}}/{{totalPage}}</mark>页</li>
+			    <li id="next-page"><a href="#">下一页</a></li>
+			    <li><input type="number" id="page-no" max="{{totalPage}}" min="1" value="{{pageNo}}"/><a href="#" id="jump-page">跳转</a></li>
+			  </ul>
+			  
+			</nav>
 		</div>
+
 	</body>
 
 </html>

@@ -1,7 +1,9 @@
 //全局变量
 var type = 0;	//存储当前分类,可动态修改	0代表主页,1代表软件,2代表视频,3代表随心分享
-var page_no = 1; //存储页码;
-var search_str = "";
+var pageNo = 1; //存储页码;
+var search_str = "";	//搜索关键字
+var pageNumbers = new Array();	//存储页码信息
+var totalPage = 0;	//总页数
 $.ajax({
 	type: "post",
 	url: "isLogin",
@@ -44,7 +46,7 @@ function noLogged() {
 	login_label.style.cssText = "display: ;";
 	register_label.style.cssText = "display: ;";
 	personal_label.style.cssText = "display: none;";
-	left_static.style.cssText = "display: none;"
+//	left_static.style.cssText = "display: none;"
 }
 //登出
 function login_out() {
@@ -137,6 +139,10 @@ $().ready(function() {
 				"share_type": share_type_value
 			},
 			success: function(msg) {
+				if(msg === null || ""===msg){
+					alert("请登录有提交分享!");
+					return ;
+				}
 				var json = eval(msg);
 				if(json.resultCode === 1) {
 					alert(json.message);
@@ -166,6 +172,7 @@ $().ready(function() {
 		$("#video-button").attr("class","");
 		$("#casual-button").attr("class","");
 		type = 0;
+		pageNo = 1;
 		getShareList();
 	});
 	//软件按钮被点击时
@@ -175,6 +182,7 @@ $().ready(function() {
 		$("#video-button").attr("class","");
 		$("#casual-button").attr("class","");
 		type = 1;
+		pageNo = 1;
 		getShareList();
 	});
 	//视频按钮被点击时
@@ -184,6 +192,7 @@ $().ready(function() {
 		$("#software-button").attr("class","");
 		$("#casual-button").attr("class","");
 		type = 2;
+		pageNo = 1;
 		getShareList();
 	});
 	//随心分享按钮被点击时
@@ -193,7 +202,38 @@ $().ready(function() {
 		$("#software-button").attr("class","");
 		$("#video-button").attr("class","");
 		type = 3;
+		pageNo = 1;
 		getShareList();
+	});
+	
+	//上一页被点击
+	$("#previous-page").click(function(){
+		if(pageNo > 1){
+			pageNo=parseInt(pageNo)-1;
+			getShareList();	
+		}else{
+			$("#previous-page a").attr("href","JavaScript:return false;");
+		}
+	});
+	$("#next-page").click(function(){
+		if(pageNo < totalPage){
+			pageNo=parseInt(pageNo)+1;
+			getShareList();
+		}else{
+			$("#next-page a").attr("href","JavaScript:return false;");
+		}
+		
+	});
+	$("#jump-page").click(function(){
+		var page_no = $("#page-no").val();
+		if(page_no>=1 && page_no<=totalPage){
+			$("#jump-page").attr("href","#");
+			pageNo=$("#page-no").val();
+			getShareList();
+		}else{
+			$("#jump-page").attr("href","JavaScript:return false;");
+		}
+		
 	});
 	
 });
@@ -203,11 +243,19 @@ var app = angular.module("my-app", []);
 app.controller("my-controller", function($scope, $http) {
 	
 	$http({
-		url: "share/list?share_type="+type+"&page_no=1&search_str=",
+		url: "share/list?share_type="+type+"&page_no="+pageNo+"&search_str=",
 		mathod: "get",
 		}
 		).success(function(msg){
 			$scope.shareList=msg.shareList;
+			$scope.totalPage=msg.totalPage;
+			$scope.pageNo = pageNo;
+			totalPage = msg.totalPage;
+//			for(var i=1; i<=msg.totalPage && i<=10; i++){
+//				pageNumbers[i-1] = i;
+//			}
+//			$scope.pageNumbers = pageNumbers;
+//			
 		}).error(function(){
 			alert("请求失败");
 		})
@@ -231,16 +279,30 @@ app.filter('shareTypeFilter', function() { //可以注入依赖
 function getShareList(){
 	$.ajax({
 		type:"get",
-		url:"share/list?share_type="+type+"&page_no="+page_no+"&search_str="+search_str,
+		url:"share/list?share_type="+type+"&page_no="+pageNo+"&search_str="+search_str,
 		success:function(msg){
-			var shareList = eval(msg).shareList;
+			var data = eval(msg);
+			var shareList = data.shareList;
 			
 			var appElement = document.querySelector('[ng-controller=my-controller]');
 			var $scope = angular.element(appElement).scope();
 			$scope.shareList = shareList;
+			totalPage = data.totalPage;
+//			pageNumbers = null;
+//			pageNumbers = new Array();
+//			for(var i=1; i<=data.totalPage && i<=10; i++){
+//					pageNumbers[i-1] = i;
+//			}
+//			alert("数组大小"+pageNumbers.length);
+//			for(var i = 0; i<pageNumbers.length;i++){
+//				alert("数组大小为:"+pageNumbers[i]);
+//			}
 			
 			$scope.$apply(function(){
-				$scope=shareList;	
+				$scope.shareList=shareList;	
+				$scope.totalPage=data.totalPage;
+				$scope.pageNo = pageNo;
+//				$scope.pageNumbers = pageNumbers;
 			});
 
 		},
