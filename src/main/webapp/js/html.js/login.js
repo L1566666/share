@@ -32,3 +32,12 @@ function skip(){
 	window.location.href="../../index.html";
 	clearInterval();
 }
+
+//测试账户登录
+function testUserLogin(){
+	var email=document.getElementById("email").value="TestUser@qq.com";
+	var password=document.getElementById("password").value="aaaaaa";
+//	alert(document.getElementById("email").value);
+	login();
+	
+}

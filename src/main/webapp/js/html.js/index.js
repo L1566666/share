@@ -2,7 +2,6 @@
 var type = 0;	//存储当前分类,可动态修改	0代表主页,1代表软件,2代表视频,3代表随心分享
 var pageNo = 1; //存储页码;
 var search_str = "";	//搜索关键字
-var pageNumbers = new Array();	//存储页码信息
 var totalPage = 0;	//总页数
 $.ajax({
 	type: "post",
@@ -140,7 +139,7 @@ $().ready(function() {
 			},
 			success: function(msg) {
 				if(msg === null || ""===msg){
-					alert("请登录有提交分享!");
+					alert("请登录后提交分享!");
 					return ;
 				}
 				var json = eval(msg);
@@ -171,6 +170,11 @@ $().ready(function() {
 		$("#software-button").attr("class","");
 		$("#video-button").attr("class","");
 		$("#casual-button").attr("class","");
+		//设置select默认分类
+		$("#type-select option[value=1]").removeAttr("selected");
+		$("#type-select option[value=2]").removeAttr("selected");
+		$("#type-select option[value=3]").removeAttr("selected");
+
 		type = 0;
 		pageNo = 1;
 		getShareList();
@@ -181,6 +185,10 @@ $().ready(function() {
 		$("#index-button").attr("class","");
 		$("#video-button").attr("class","");
 		$("#casual-button").attr("class","");
+		//设置select默认分类
+		$("#type-select option[value=1]").attr("selected","true");
+		$("#type-select option[value=2]").removeAttr("selected");
+		$("#type-select option[value=3]").removeAttr("selected");
 		type = 1;
 		pageNo = 1;
 		getShareList();
@@ -191,6 +199,10 @@ $().ready(function() {
 		$("#index-button").attr("class","");
 		$("#software-button").attr("class","");
 		$("#casual-button").attr("class","");
+		//设置select默认分类
+		$("#type-select option[value=1]").removeAttr("selected");
+		$("#type-select option[value=2]").attr("selected","true");
+		$("#type-select option[value=3]").removeAttr("selected");
 		type = 2;
 		pageNo = 1;
 		getShareList();
@@ -201,6 +213,11 @@ $().ready(function() {
 		$("#index-button").attr("class","");
 		$("#software-button").attr("class","");
 		$("#video-button").attr("class","");
+		
+		//设置select默认分类
+		$("#type-select option[value=1]").removeAttr("selected");
+		$("#type-select option[value=2]").removeAttr("selected");
+		$("#type-select option[value=3]").attr("selected","true");
 		type = 3;
 		pageNo = 1;
 		getShareList();
@@ -251,11 +268,7 @@ app.controller("my-controller", function($scope, $http) {
 			$scope.totalPage=msg.totalPage;
 			$scope.pageNo = pageNo;
 			totalPage = msg.totalPage;
-//			for(var i=1; i<=msg.totalPage && i<=10; i++){
-//				pageNumbers[i-1] = i;
-//			}
-//			$scope.pageNumbers = pageNumbers;
-//			
+	
 		}).error(function(){
 			alert("请求失败");
 		})
@@ -288,21 +301,12 @@ function getShareList(){
 			var $scope = angular.element(appElement).scope();
 			$scope.shareList = shareList;
 			totalPage = data.totalPage;
-//			pageNumbers = null;
-//			pageNumbers = new Array();
-//			for(var i=1; i<=data.totalPage && i<=10; i++){
-//					pageNumbers[i-1] = i;
-//			}
-//			alert("数组大小"+pageNumbers.length);
-//			for(var i = 0; i<pageNumbers.length;i++){
-//				alert("数组大小为:"+pageNumbers[i]);
-//			}
-			
+
 			$scope.$apply(function(){
 				$scope.shareList=shareList;	
 				$scope.totalPage=data.totalPage;
 				$scope.pageNo = pageNo;
-//				$scope.pageNumbers = pageNumbers;
+
 			});
 
 		},
