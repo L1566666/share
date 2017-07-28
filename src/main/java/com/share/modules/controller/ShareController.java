@@ -39,7 +39,7 @@ public class ShareController {
      * @return
      */
     @RequestMapping(value = "save")
-    public Map<String, Object> save(HttpServletRequest request, String share_subject, String share_describe,String share_url,
+    public Map<String, Object> save(HttpServletRequest request, String share_describe,String share_url,
                                     Integer share_type){
 
         Map<String,Object> data = new HashMap<String, Object>();
@@ -60,7 +60,7 @@ public class ShareController {
         Long userId = Long.valueOf(request.getSession().getAttribute("userId").toString());
         String email = request.getSession().getAttribute("email").toString();
 
-        Share share = new Share(userId, email,share_subject,share_describe,share_url,0L, 0L, share_type);
+        Share share = new Share(userId, email,share_describe,share_url,0L, 0L, share_type);
         Date date = new Date();
         share.setCreateDate(date);
 

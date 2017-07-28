@@ -31,6 +31,9 @@
 						<li class="active" id="index-button">
 							<a href="#">主页</a>
 						</li>
+						<li class="" id="casual-button">
+							<a href="#">随心分享</a>
+						</li>
 						<li class="" id="software-button">
 							<a href="#">软件</a>
 						</li>
@@ -40,9 +43,7 @@
 						<!--<li class="" value="1">
 							<a href="#">发现</a>
 						</li>-->
-						<li class="" id="casual-button">
-							<a href="#">随心分享</a>
-						</li>
+						
 						<form class="navbar-form navbar-left" role="search">
 							<div class="form-group">
 								<input type="text" class="form-control" name="search_str" placeholder="Search">
@@ -115,12 +116,12 @@
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal">
-							<div class="form-group">
+							<!--<div class="form-group">
 								<label class="col-sm-3 control-label">标题:</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="share_subject" value="" />
 								</div>
-							</div>
+							</div>-->
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label">分享描述:</label>
@@ -138,9 +139,10 @@
 								<label class="col-sm-3 control-label">分类</label>
 								<div class="col-sm-6">
 									<select id="type-select" name="share_type" class="form-control">
-										<option value="1">软件</option>
-										<option value="2">视频</option>
-										<option value="3">随心分享</option>
+										<option value="1">随心分享</option>
+										<option value="2">软件</option>
+										<option value="3">视频</option>
+										
 									</select>
 								</div>
 							</div>
@@ -166,13 +168,17 @@
 			<div ng-repeat="share in shareList" class="share-content">
 
 				<table width="65%">
-					<tr align="center">
+					<!--<tr align="center">
 						<td colspan="2">
 							<font size="2"><b>{{share.shareSubject}}</b></font><br /></td>
-					</tr>
-
+					</tr>-->
 					<tr>
-						<td>描述:</td>
+						<td colspan="2">
+							<font><b><span class="glyphicon glyphicon-user"></span>{{share.email}}</b></font>
+						</td>
+					</tr>
+					<tr>
+						<td  width="50px">描述:</td>
 						<td>{{share.shareDescribe}}</td>
 					</tr>
 					<tr>
@@ -182,14 +188,18 @@
 						</td>
 					</tr>
 					<tr>
-						<td>
-							<font><b><span class="glyphicon glyphicon-user"></span>{{share.email}}</b></font>
-						</td>
-						<td>
-							<font>{{share.shareType | shareTypeFilter}}</font>&nbsp;&nbsp;&nbsp;
-							<font><span class="glyphicon glyphicon-time"></span>{{share.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</font>&nbsp;&nbsp;&nbsp;
-							<font><span class="glyphicon glyphicon-thumbs-up"></span>({{share.supportAmount}})</font>&nbsp;&nbsp;&nbsp;
-							<font><span class="glyphicon glyphicon-thumbs-down"></span>({{share.stepAmount}})</font>&nbsp;&nbsp;&nbsp;
+						<td colspan="2">
+							
+							<font color="#9D9D9D"><span class="glyphicon glyphicon-time"></span>{{share.createDate | date:'yyyy年MM月dd日 HH:mm:ss'}}</font>&nbsp;&nbsp;&nbsp;
+							<font  color="#9D9D9D" style="cursor: pointer;" class="support" id="support_{{share.id}}" onclick="support(this.id)" onmousemove="supportMove(this.id)" onmouseout="supportOut(this.id)">
+								<span class="glyphicon glyphicon-thumbs-up"></span>
+								( <span id="supportAmount_{{share.id}}"> {{share.supportAmount}}</span> )
+							</font>&nbsp;&nbsp;&nbsp;
+							<font  color="#9D9D9D" style="cursor: pointer;" class="step"  id="step_{{share.id}}"  onclick="step(this.id)" onmousemove="stepMove(this.id)" onmouseout="stepOut(this.id)">
+								<span class="glyphicon glyphicon-thumbs-down"></span>
+								( <span id="stepAmount_{{share.id}}">{{share.stepAmount}}</span> )
+							</font>&nbsp;&nbsp;&nbsp;
+							<font  color="#9D9D9D">{{share.shareType | shareTypeFilter}}</font>&nbsp;&nbsp;&nbsp;
 						</td>
 					</tr>
 

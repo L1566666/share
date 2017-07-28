@@ -117,7 +117,7 @@ $().ready(function() {
 
 	//保存分享按钮
 	$("#shareSave").click(function() {
-		var share_subject_value = $("input[name=share_subject]").val(); //获取分享主题
+//		var share_subject_value = $("input[name=share_subject]").val(); //获取分享主题  暂时不使用
 		var share_describe_value = $("input[name=share_describe]").val(); //获取分享描述
 		var share_url_value = $("textarea[name=share_url]").val(); //获取分享链接内容
 		var share_type_value = $("select[name=share_type]").val(); //获取分享分类类型
@@ -132,7 +132,6 @@ $().ready(function() {
 			type: "post",
 			url: "share/save",
 			data: {
-				"share_subject": share_subject_value,
 				"share_describe": share_describe_value,
 				"share_url": share_url_value,
 				"share_type": share_type_value
@@ -179,6 +178,22 @@ $().ready(function() {
 		pageNo = 1;
 		getShareList();
 	});
+	//随心分享按钮被点击时
+	$("#casual-button").click(function(){
+		$(this).attr("class","active");
+		$("#index-button").attr("class","");
+		$("#software-button").attr("class","");
+		$("#video-button").attr("class","");
+		
+		//设置select默认分类
+		$("#type-select option[value=1]").attr("selected","true");
+		$("#type-select option[value=2]").removeAttr("selected");
+		$("#type-select option[value=3]").removeAttr("selected");
+		
+		type = 1;
+		pageNo = 1;
+		getShareList();
+	});
 	//软件按钮被点击时
 	$("#software-button").click(function(){
 		$(this).attr("class","active");
@@ -186,10 +201,10 @@ $().ready(function() {
 		$("#video-button").attr("class","");
 		$("#casual-button").attr("class","");
 		//设置select默认分类
-		$("#type-select option[value=1]").attr("selected","true");
-		$("#type-select option[value=2]").removeAttr("selected");
+		$("#type-select option[value=2]").attr("selected","true");
+		$("#type-select option[value=1]").removeAttr("selected");
 		$("#type-select option[value=3]").removeAttr("selected");
-		type = 1;
+		type = 2;
 		pageNo = 1;
 		getShareList();
 	});
@@ -201,27 +216,13 @@ $().ready(function() {
 		$("#casual-button").attr("class","");
 		//设置select默认分类
 		$("#type-select option[value=1]").removeAttr("selected");
-		$("#type-select option[value=2]").attr("selected","true");
-		$("#type-select option[value=3]").removeAttr("selected");
-		type = 2;
-		pageNo = 1;
-		getShareList();
-	});
-	//随心分享按钮被点击时
-	$("#casual-button").click(function(){
-		$(this).attr("class","active");
-		$("#index-button").attr("class","");
-		$("#software-button").attr("class","");
-		$("#video-button").attr("class","");
-		
-		//设置select默认分类
-		$("#type-select option[value=1]").removeAttr("selected");
-		$("#type-select option[value=2]").removeAttr("selected");
 		$("#type-select option[value=3]").attr("selected","true");
+		$("#type-select option[value=2]").removeAttr("selected");
 		type = 3;
 		pageNo = 1;
 		getShareList();
 	});
+	
 	
 	//上一页被点击
 	$("#previous-page").click(function(){
@@ -253,6 +254,11 @@ $().ready(function() {
 		
 	});
 	
+	//点赞按钮
+	$(".support").click(function(){
+		alert("bbb");
+	});
+
 });
 
 //angular设定数据
@@ -278,11 +284,11 @@ app.controller("my-controller", function($scope, $http) {
 app.filter('shareTypeFilter', function() { //可以注入依赖
     return function(type) {
         if(type===1){
-        	return "软件";
-        }else if(type===2){
-        	return "视频";
-        }else if(type === 3){
         	return "随心分享";
+        }else if(type===2){
+        	return "软件";
+        }else if(type === 3){
+        	return "视频";
         }else{
         	return "未知分类";
         }
@@ -314,4 +320,70 @@ function getShareList(){
 			alert("请求失败!");
 		}
 	});
+}
+//点赞功能
+function support(id){
+	var share_id=id.substring(8);
+	$.ajax({
+		type:"get",
+		url:"/supportOrStep/supportOrStep?support_or_step=1&share_id="+share_id,
+		success:function(msg){
+			if(msg == null || msg == ""){
+				alert("未登录");
+				return ;
+			}
+			if(msg.resultCode == 0){
+				alert(msg.message);
+			}else if(msg.resultCode == 1){
+				var support_amount = document.getElementById("supportAmount_"+share_id);
+
+				support_amount.innerText = parseInt(support_amount.innerText)+1;
+			}
+		},
+		error:function(){
+			alert("网络连接异常!");
+		}
+	});
+}
+function supportMove(id){
+	var support = document.getElementById(id);
+	support.style.cssText="color: #262626;cursor: pointer;";
+}
+function supportOut(id){
+	var support = document.getElementById(id);
+	support.style.cssText="cursor: pointer;";
+}
+//踩功能
+function step(id){
+	var share_id=id.substring(5);
+	$.ajax({
+		type:"get",
+		url:"/supportOrStep/supportOrStep?support_or_step=2&share_id="+share_id,
+		success:function(msg){
+			if(msg == null || msg == ""){
+				alert("未登录");
+				return ;
+			}
+			if(msg.resultCode == 0){
+				alert(msg.message);
+			}else if(msg.resultCode == 1){
+				var step_amount = document.getElementById("stepAmount_"+share_id);
+				var value = step_amount.innerText;
+				
+				step_amount.innerText = parseInt(step_amount.innerText)+1;
+			}
+		},
+		error:function(){
+			alert("网络连接异常!");
+		}
+	});
+}
+function stepMove(id){
+	var step = document.getElementById(id);
+	step.style.cssText="color: #262626;cursor: pointer;";
+
+}
+function stepOut(id){
+	var step = document.getElementById(id);
+	step.style.cssText="cursor: pointer;";
 }

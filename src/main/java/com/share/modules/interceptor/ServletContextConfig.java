@@ -22,10 +22,9 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor())
                 .addPathPatterns("/index/index1")
-                .excludePathPatterns("/index.html")
                 .addPathPatterns("/isLogin")
-                .addPathPatterns("/loginOut")
                 .addPathPatterns("/share/save")
+                .addPathPatterns("/supportOrStep/supportOrStep")
         ;
     }
 
